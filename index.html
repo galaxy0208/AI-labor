@@ -484,36 +484,57 @@ footer {
     <h2>AI Exposure & Employment<br>Trend Analysis</h2>
     <p class="narrative">The following figures visualize occupational AI exposure against projected job growth trends from 2025 to 2030, drawing on BLS employment projections and AI task-exposure indices.</p>
 
+    <!-- Figure 1 -->
     <div class="chart-card">
       <div class="chart-header">
         <p class="chart-num">Figure 1</p>
         <h3 class="chart-title">5-Year Employment Trend Forecast by AI Exposure Group</h3>
-        <p class="chart-subtitle">This line chart shows the projected employment trend from 2025 to 2030 by AI exposure group. All groups show growth, but high-exposure jobs increase the most.</p>
+        <p class="chart-subtitle">This line chart shows the projected employment trend from 2025 to 2030 by AI exposure group. All three groups grow over the period, but <strong>high-exposure jobs increase the most</strong> — reaching an index of 102.0 by 2030 — suggesting that AI augmentation is driving stronger demand rather than pure displacement in these occupations. Medium-exposure jobs grow the least (101.2), indicating they face the most competitive pressure from automation without clear complementarity gains.</p>
       </div>
-      <div class="chart-body" style="text-align:center;">
-        <img src="static/images/figure1.png" alt="5-Year Employment Trend Forecast by AI Exposure Group — line chart showing projected employment trend 2025–2030" style="max-width:100%; border:1px solid var(--border-light);">
+      <div class="chart-body">
+        <div class="legend">
+          <span class="legend-item"><span class="lg" style="background:#dc2626;"></span>High Exposure</span>
+          <span class="legend-item"><span class="lg" style="background:#d97706;"></span>Medium Exposure</span>
+          <span class="legend-item"><span class="lg" style="background:#059669;"></span>Low Exposure</span>
+        </div>
+        <div style="position:relative; width:100%; height:340px;">
+          <canvas id="fig1" role="img" aria-label="Line chart showing 5-year employment trend forecast by AI exposure group from 2025 to 2030."></canvas>
+        </div>
+        <p class="source">Source: BLS Employment Projections 2025–2030; AI exposure groupings based on Massenkoff &amp; McCrory (2026) / O*NET task analysis</p>
       </div>
     </div>
 
+    <!-- Figure 2 -->
     <div class="chart-card">
       <div class="chart-header">
         <p class="chart-num">Figure 2</p>
-        <h3 class="chart-title">Occupational Risk Matrix: Exposure vs. Employment Growth</h3>
-        <p class="chart-subtitle">This bar chart compares AI exposure levels with projected job growth. Data entry shows high AI exposure and negative growth, while software development shows both high exposure and strong growth.</p>
+        <h3 class="chart-title">Occupational Risk Matrix: AI Exposure vs. Employment Growth</h3>
+        <p class="chart-subtitle">This bar chart compares each occupation's AI Exposure Index (dark, scaled ÷10) with its projected BLS job growth rate (teal) from 2025 to 2030. <strong>Data Entry</strong> shows the starkest contrast — high exposure paired with −13.9% projected decline — while <strong>Software Development</strong> demonstrates that high exposure can coexist with strong growth (+7.6%) when AI acts as a productivity complement rather than a substitute. Customer Support also shows negative growth (−2.8%), reflecting chatbot-driven automation of routine interactions.</p>
       </div>
-      <div class="chart-body" style="text-align:center;">
-        <img src="static/images/figure2.png" alt="Occupational Risk Matrix bar chart comparing AI exposure index and projected job growth by occupation" style="max-width:100%; border:1px solid var(--border-light);">
+      <div class="chart-body">
+        <div class="legend">
+          <span class="legend-item"><span class="lg" style="background:#1a2340;"></span>AI Exposure Index (÷10 for scale)</span>
+          <span class="legend-item"><span class="lg" style="background:#059669;"></span>Approx. BLS Job Growth % (2025–2030)</span>
+        </div>
+        <div style="position:relative; width:100%; height:360px;">
+          <canvas id="fig2" role="img" aria-label="Grouped bar chart comparing AI exposure index and projected BLS job growth by occupation."></canvas>
+        </div>
+        <p class="source">Source: BLS Occupational Outlook Handbook 2025; AI Exposure Index derived from Eloundou et al. (2023) GPT-4 task mapping</p>
       </div>
     </div>
 
+    <!-- Figure 3 -->
     <div class="chart-card">
       <div class="chart-header">
         <p class="chart-num">Figure 3</p>
         <h3 class="chart-title">Occupational Risk Matrix: AI Exposure vs. Job Growth (Bubble Chart)</h3>
-        <p class="chart-subtitle">This bubble chart maps occupations by AI exposure and job growth. Jobs in the lower-right area, such as data entry, appear more vulnerable, while jobs in the upper-right area show stronger growth potential.</p>
+        <p class="chart-subtitle">This bubble chart maps six key occupations by AI Exposure Index (x-axis) and projected job growth 2025–2030 (y-axis). The quadrant structure reveals a critical distinction: <strong>upper-right occupations</strong> (Software Dev, Legal Services) face high AI exposure but maintain positive growth — AI augments rather than replaces. <strong>Lower-right occupations</strong> (Data Entry, Customer Support) face high exposure <em>and</em> negative growth — these roles are at greatest displacement risk. Transport (lower AI exposure, positive growth) and HC Support (moderate exposure, modest growth) sit in safer territory.</p>
       </div>
-      <div class="chart-body" style="text-align:center;">
-        <img src="static/images/figure3.png" alt="Bubble chart mapping occupations by AI exposure index and projected job growth 2025–2030" style="max-width:100%; border:1px solid var(--border-light);">
+      <div class="chart-body">
+        <div style="position:relative; width:100%; height:400px;">
+          <canvas id="fig3" role="img" aria-label="Bubble chart mapping occupations by AI exposure index and projected job growth 2025–2030."></canvas>
+        </div>
+        <p class="source">Source: BLS Employment Projections 2025–2030; AI Exposure Index: Eloundou et al. (2023); bubble size represents relative workforce size</p>
       </div>
     </div>
   </div>
@@ -770,6 +791,175 @@ const tp = {
   boxHeight: 10,
   boxPadding: 4,
 };
+
+// Figure 1 — 5-Year Employment Trend Forecast
+new Chart(document.getElementById('fig1'), {
+  type: 'line',
+  data: {
+    labels: ['2025', '2026', '2027', '2028', '2029', '2030'],
+    datasets: [
+      {
+        label: 'High Exposure',
+        data: [100.0, 100.4, 100.8, 101.2, 101.6, 102.0],
+        borderColor: '#dc2626',
+        backgroundColor: 'rgba(220,38,38,0.08)',
+        borderWidth: 2.5,
+        pointRadius: 5,
+        pointBackgroundColor: '#dc2626',
+        tension: 0.3,
+        fill: false,
+      },
+      {
+        label: 'Low Exposure',
+        data: [100.0, 100.33, 100.65, 100.99, 101.32, 101.6],
+        borderColor: '#059669',
+        backgroundColor: 'rgba(5,150,105,0.06)',
+        borderWidth: 2.5,
+        pointRadius: 5,
+        pointBackgroundColor: '#059669',
+        tension: 0.3,
+        fill: false,
+      },
+      {
+        label: 'Medium Exposure',
+        data: [100.0, 100.24, 100.48, 100.70, 100.95, 101.2],
+        borderColor: '#d97706',
+        backgroundColor: 'rgba(217,119,6,0.06)',
+        borderWidth: 2.5,
+        pointRadius: 5,
+        pointBackgroundColor: '#d97706',
+        tension: 0.3,
+        fill: false,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        ...tp,
+        callbacks: { label: c => ` ${c.dataset.label}: ${c.parsed.y.toFixed(1)}` }
+      }
+    },
+    scales: {
+      x: {
+        title: { display: true, text: 'Year', color: '#595959', font: { family: FONT, size: 11 } },
+        ticks: { color: '#595959' },
+        grid: { display: false }
+      },
+      y: {
+        min: 99.8, max: 102.3,
+        title: { display: true, text: 'Employment Index (2025 = 100)', color: '#595959', font: { family: FONT, size: 11 } },
+        ticks: { color: '#595959', callback: v => v.toFixed(2) },
+        grid: { color: 'rgba(0,0,0,0.05)' },
+        border: { color: '#e5e7eb' }
+      }
+    }
+  }
+});
+
+// Figure 2 — Occupational Risk Matrix (grouped bar)
+new Chart(document.getElementById('fig2'), {
+  type: 'bar',
+  data: {
+    labels: ['Legal Services', 'Data Entry', 'Customer Support', 'Software Dev', 'HC Support', 'Transport'],
+    datasets: [
+      {
+        label: 'AI Exposure Index (÷10 for scale)',
+        data: [7.8, 8.0, 7.5, 8.6, 3.9, 2.8],
+        backgroundColor: 'rgba(26,35,64,0.88)',
+        borderColor: '#1a2340',
+        borderWidth: 1,
+        borderRadius: 0,
+      },
+      {
+        label: 'Approx. BLS Job Growth % (2025–2030)',
+        data: [2.0, -13.9, -2.8, 7.6, 1.1, 2.0],
+        backgroundColor: 'rgba(5,150,105,0.75)',
+        borderColor: '#059669',
+        borderWidth: 1,
+        borderRadius: 0,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        ...tp,
+        callbacks: {
+          label: c => {
+            if (c.datasetIndex === 0) return ` AI Exposure Index: ${(c.parsed.y * 10).toFixed(0)}/100`;
+            return ` Job Growth: ${c.parsed.y}%`;
+          }
+        }
+      }
+    },
+    scales: {
+      x: { ticks: { color: '#595959', font: { size: 10 } }, grid: { display: false } },
+      y: {
+        min: -15, max: 10,
+        ticks: { color: '#595959', callback: v => v },
+        grid: { color: 'rgba(0,0,0,0.05)' },
+        border: { color: '#e5e7eb' }
+      }
+    }
+  }
+});
+
+// Figure 3 — Bubble chart (AI Exposure vs Job Growth)
+const fig3Occupations = [
+  { label: 'Software Dev',     x: 85, y: 7.6,   r: 18, color: '#20b2aa' },
+  { label: 'Legal Services',   x: 78, y: 2.0,   r: 14, color: '#e07070' },
+  { label: 'Customer Support', x: 75, y: -2.8,  r: 16, color: '#d97706' },
+  { label: 'Data Entry',       x: 79, y: -15.0, r:  7, color: '#dc2626' },
+  { label: 'HC Support',       x: 39, y: 1.1,   r: 17, color: '#3cb371' },
+  { label: 'Transport',        x: 27, y: 2.0,   r: 19, color: '#6baed6' },
+];
+
+new Chart(document.getElementById('fig3'), {
+  type: 'bubble',
+  data: {
+    datasets: fig3Occupations.map(o => ({
+      label: o.label,
+      data: [{ x: o.x, y: o.y, r: o.r }],
+      backgroundColor: o.color + '55',
+      borderColor: o.color,
+      borderWidth: 2,
+    }))
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: true, position: 'right', labels: { color: '#595959', boxWidth: 8, font: { size: 11 }, padding: 14 } },
+      tooltip: {
+        ...tp,
+        callbacks: { label: c => ` ${c.dataset.label} — AI Exposure: ${c.parsed.x}/100, Growth: ${c.parsed.y}%` }
+      }
+    },
+    scales: {
+      x: {
+        min: 15, max: 100,
+        title: { display: true, text: 'AI Exposure Index (0–100)', color: '#595959', font: { family: FONT, size: 11 } },
+        ticks: { color: '#595959' },
+        grid: { color: 'rgba(0,0,0,0.05)' },
+        border: { color: '#e5e7eb' }
+      },
+      y: {
+        min: -18, max: 10,
+        title: { display: true, text: 'Approx. Job Growth, 2025–2030 (%)', color: '#595959', font: { family: FONT, size: 11 } },
+        ticks: { color: '#595959', callback: v => v + '%' },
+        grid: { color: 'rgba(0,0,0,0.05)' },
+        border: { color: '#e5e7eb' }
+      }
+    }
+  }
+});
 
 // Chart A
 new Chart(document.getElementById('chartA'), {
