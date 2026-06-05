@@ -353,12 +353,72 @@ h2 {
   margin-bottom: 40px;
 }
 
+/* ─── CHART WRAPPERS (responsive heights — keep proportions on mobile) ─── */
+.cwrap { position: relative; width: 100%; }
+.cw-200 { height: 200px; }
+.cw-320 { height: 320px; }
+.cw-340 { height: 340px; }
+.cw-360 { height: 360px; }
+.cw-400 { height: 400px; }
+
+/* table scrolls horizontally instead of overflowing the page */
+.table-scroll { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* ─── TABLET ─── */
+@media (max-width: 900px) {
+  .hero { padding: 56px 24px 48px; }
+  .section-divider { padding: 56px 0 0; }
+}
+
+/* ─── MOBILE ─── */
 @media (max-width: 640px) {
+  body { -webkit-text-size-adjust: 100%; overflow-x: hidden; }
+
+  /* nav: keep links, make them a clean horizontal scroll strip */
+  nav { padding: 0 14px; height: 48px; }
+  .nav-logo { font-size: 12px; }
+  .nav-links {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin: 0 10px;
+    flex: 1;
+  }
+  .nav-links::-webkit-scrollbar { display: none; }
+  .nav-links a { white-space: nowrap; font-size: 12px; }
+  .nav-cta { padding: 5px 12px; font-size: 11px; white-space: nowrap; }
+
+  .hero { padding: 44px 16px 36px; }
+  .main { padding: 0 16px 72px; }
+  .section-divider { padding: 48px 0 0; }
+
+  h1 { margin-bottom: 18px; }
+  .hero-desc, .narrative { font-size: 13.5px; }
+
+  /* cards: lighter shadow + full-bleed-safe so they never cause side-scroll */
+  .chart-card, .key-insight, .method-note, .stat-card, .finding-card {
+    box-shadow: 3px 3px 0 #000;
+  }
+  .chart-header { padding: 16px 16px 14px; }
+  .chart-body { padding: 16px; overflow-x: auto; }
+
   .two-col { grid-template-columns: 1fr; }
-  .stat-grid { grid-template-columns: 1fr 1fr; }
-  nav { padding: 0 16px; }
-  .hero, .main { padding-left: 16px; padding-right: 16px; }
-  .nav-links { display: none; }
+  .stat-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .stat-card { padding: 16px 16px; }
+  .stat-value { font-size: 26px; }
+
+  .key-insight, .method-note { padding: 16px 18px; gap: 14px; }
+
+  /* shorter charts on mobile so they stay well-proportioned, not stretched */
+  .cw-320, .cw-340 { height: 260px; }
+  .cw-360, .cw-400 { height: 300px; }
+  .cw-200 { height: 190px; }
+}
+
+@media (max-width: 380px) {
+  .stat-grid { grid-template-columns: 1fr; }
 }
 
 /* ─── TABLE ─── */
@@ -441,6 +501,61 @@ h2 {
   line-height: 1.75;
 }
 
+/* ─── METHODOLOGY NOTE ─── */
+.method-note {
+  background: #fffbeb;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  padding: 20px 24px;
+  margin-bottom: 40px;
+  display: grid;
+  grid-template-columns: 3px 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.method-note .insight-bar { background: var(--amber); }
+
+.method-note .label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.method-note .insight-text strong { color: var(--text); font-weight: 600; }
+
+/* ─── REFERENCES ─── */
+.references {
+  list-style: none;
+  counter-reset: ref;
+  margin-top: 16px;
+}
+
+.references li {
+  counter-increment: ref;
+  position: relative;
+  padding-left: 36px;
+  margin-bottom: 12px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.references li::before {
+  content: '[' counter(ref) ']';
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.references a { color: var(--text); word-break: break-word; }
+
 /* ─── FOOTER ─── */
 footer {
   border-top: 1px solid var(--border-light);
@@ -459,12 +574,12 @@ footer {
 <nav>
   <a class="nav-logo" href="#">CDS 301</a>
   <ul class="nav-links">
-    <li><a href="#figures">Figures</a></li>
-    <li><a href="#context">Context</a></li>
+    <li><a href="#context">Industry</a></li>
+    <li><a href="#figures">Outcomes</a></li>
     <li><a href="#paradox">H-1B Paradox</a></li>
     <li><a href="#korea">Korea</a></li>
     <li><a href="#comparison">Comparison</a></li>
-    <li><a href="#findings">Findings</a></li>
+    <li><a href="#references">References</a></li>
   </ul>
   <a class="nav-cta" href="https://github.com/galaxy0208/Agentic-AI-affect-U.S.-labor-market" target="_blank">GitHub →</a>
 </nav>
@@ -478,89 +593,37 @@ footer {
 
 <main class="main">
 
-  <!-- FIGURES SECTION -->
-  <div class="section-divider" id="figures">
-    <p class="section-label">Visualizations</p>
-    <h2>AI Exposure & Employment<br>Trend Analysis</h2>
-    <p class="narrative">The following figures visualize occupational AI exposure against projected job growth trends from 2025 to 2030, drawing on BLS employment projections and AI task-exposure indices.</p>
-
-    <!-- Figure 1 -->
-    <div class="chart-card">
-      <div class="chart-header">
-        <p class="chart-num">Figure 1</p>
-        <h3 class="chart-title">5-Year Employment Trend Forecast by AI Exposure Group</h3>
-        <p class="chart-subtitle">This line chart shows the projected employment trend from 2025 to 2030 by AI exposure group. All three groups grow over the period, but <strong>high-exposure jobs increase the most</strong> — reaching an index of 102.0 by 2030 — suggesting that AI augmentation is driving stronger demand rather than pure displacement in these occupations. Medium-exposure jobs grow the least (101.2), indicating they face the most competitive pressure from automation without clear complementarity gains.</p>
-      </div>
-      <div class="chart-body">
-        <div class="legend">
-          <span class="legend-item"><span class="lg" style="background:#dc2626;"></span>High Exposure</span>
-          <span class="legend-item"><span class="lg" style="background:#d97706;"></span>Medium Exposure</span>
-          <span class="legend-item"><span class="lg" style="background:#059669;"></span>Low Exposure</span>
-        </div>
-        <div style="position:relative; width:100%; height:340px;">
-          <canvas id="fig1" role="img" aria-label="Line chart showing 5-year employment trend forecast by AI exposure group from 2025 to 2030."></canvas>
-        </div>
-        <p class="source">Source: BLS Employment Projections 2025–2030; AI exposure groupings based on Massenkoff &amp; McCrory (2026) / O*NET task analysis</p>
-      </div>
-    </div>
-
-    <!-- Figure 2 -->
-    <div class="chart-card">
-      <div class="chart-header">
-        <p class="chart-num">Figure 2</p>
-        <h3 class="chart-title">Occupational Risk Matrix: AI Exposure vs. Employment Growth</h3>
-        <p class="chart-subtitle">This bar chart compares each occupation's AI Exposure Index (dark, scaled ÷10) with its projected BLS job growth rate (teal) from 2025 to 2030. <strong>Data Entry</strong> shows the starkest contrast — high exposure paired with −13.9% projected decline — while <strong>Software Development</strong> demonstrates that high exposure can coexist with strong growth (+7.6%) when AI acts as a productivity complement rather than a substitute. Customer Support also shows negative growth (−2.8%), reflecting chatbot-driven automation of routine interactions.</p>
-      </div>
-      <div class="chart-body">
-        <div class="legend">
-          <span class="legend-item"><span class="lg" style="background:#1a2340;"></span>AI Exposure Index (÷10 for scale)</span>
-          <span class="legend-item"><span class="lg" style="background:#059669;"></span>Approx. BLS Job Growth % (2025–2030)</span>
-        </div>
-        <div style="position:relative; width:100%; height:360px;">
-          <canvas id="fig2" role="img" aria-label="Grouped bar chart comparing AI exposure index and projected BLS job growth by occupation."></canvas>
-        </div>
-        <p class="source">Source: BLS Occupational Outlook Handbook 2025; AI Exposure Index derived from Eloundou et al. (2023) GPT-4 task mapping</p>
-      </div>
-    </div>
-
-    <!-- Figure 3 -->
-    <div class="chart-card">
-      <div class="chart-header">
-        <p class="chart-num">Figure 3</p>
-        <h3 class="chart-title">Occupational Risk Matrix: AI Exposure vs. Job Growth (Bubble Chart)</h3>
-        <p class="chart-subtitle">This bubble chart maps six key occupations by AI Exposure Index (x-axis) and projected job growth 2025–2030 (y-axis). The quadrant structure reveals a critical distinction: <strong>upper-right occupations</strong> (Software Dev, Legal Services) face high AI exposure but maintain positive growth — AI augments rather than replaces. <strong>Lower-right occupations</strong> (Data Entry, Customer Support) face high exposure <em>and</em> negative growth — these roles are at greatest displacement risk. Transport (lower AI exposure, positive growth) and HC Support (moderate exposure, modest growth) sit in safer territory.</p>
-      </div>
-      <div class="chart-body">
-        <div style="position:relative; width:100%; height:400px;">
-          <canvas id="fig3" role="img" aria-label="Bubble chart mapping occupations by AI exposure index and projected job growth 2025–2030."></canvas>
-        </div>
-        <p class="source">Source: BLS Employment Projections 2025–2030; AI Exposure Index: Eloundou et al. (2023); bubble size represents relative workforce size</p>
-      </div>
+  <!-- METHODOLOGY NOTE — the AI Exposure Index is a synthesized measure -->
+  <div class="method-note" id="method">
+    <div class="insight-bar"></div>
+    <div>
+      <span class="label">A note on the "AI Exposure Index"</span>
+      <p class="insight-text">There is <strong>no single official statistic</strong> published as an "AI exposure index" on a 0–100 scale. The exposure values used throughout this site are a <strong>synthesized composite that we constructed</strong> by rescaling and combining task-level exposure estimates from <strong>Eloundou et al. (2023)</strong> (GPT task mapping) with <strong>O*NET 28.0</strong> task descriptors, weighted by occupational employment from the <strong>BLS</strong>. It is a <strong>relative, illustrative</strong> measure for cross-occupation and cross-industry comparison — not a directly reported number, and not a probability of job loss. Read it as "higher = more of an occupation's tasks are technically exposed to current large language models." Where exposure is compared against employment or immigration data, note that those underlying series come from different years and survey methodologies; treat the comparison as directional, not precise. See the References section for every source used.</p>
     </div>
   </div>
 
-  <!-- SECTION 1 -->
+  <!-- SECTION 1 — INDUSTRY FIRST -->
   <div class="section-divider" id="context">
-    <p class="section-label">Context</p>
+    <p class="section-label">Industry</p>
     <h2>The U.S. as a High-Immigration,<br>High-AI-Exposure Economy</h2>
-    <p class="narrative">In 2024, <strong>31.4 million foreign-born workers</strong> made up 19.2% of the entire U.S. civilian labor force — a historic high. This workforce is disproportionately concentrated in AI-exposed sectors: professional &amp; business services (15.4%), information technology, and healthcare. Meanwhile, the H-1B visa program channels skilled immigrants directly into the highest-exposure occupations — computer-related roles accounted for <strong>66% of all H-1B approvals</strong> in recent fiscal years.</p>
+    <p class="narrative">In 2025, the foreign-born accounted for <strong>19.1% of the U.S. civilian labor force</strong> — more than 31 million workers, near a record high. This workforce is disproportionately concentrated in AI-exposed sectors: professional &amp; business services, information technology, and healthcare. Meanwhile, the H-1B visa program channels skilled immigrants directly into the highest-exposure occupations — computer-related roles accounted for <strong>64% of all H-1B approvals</strong> (~255,000 workers) in FY2024.</p>
 
     <div class="stat-grid">
       <div class="stat-card">
-        <div class="stat-value" style="color: var(--teal);">19.2%</div>
-        <div class="stat-label">Foreign-born share of U.S. labor force, 2024 (BLS, May 2025)</div>
+        <div class="stat-value" style="color: var(--teal);">19.1%</div>
+        <div class="stat-label">Foreign-born share of U.S. labor force, 2025 (BLS, 2026) [1]</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value" style="color: var(--blue);">66%</div>
-        <div class="stat-label">H-1B approvals in computer-related occupations (USCIS FY2022)</div>
+        <div class="stat-value" style="color: var(--blue);">64%</div>
+        <div class="stat-label">H-1B approvals in computer-related occupations, FY2024 (USCIS) [2]</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value" style="color: var(--amber);">$118K</div>
-        <div class="stat-label">Median annual salary of approved H-1B holders (FY2022)</div>
+        <div class="stat-value" style="color: var(--amber);">$116K</div>
+        <div class="stat-label">Median salary, bachelor's-degree H-1B holders, FY2024 (USCIS) [2]</div>
       </div>
       <div class="stat-card">
         <div class="stat-value" style="color: var(--coral);">65%</div>
-        <div class="stat-label">Top U.S. AI companies with at least one immigrant founder (NFAP)</div>
+        <div class="stat-label">Top U.S. AI companies with at least one immigrant founder (NFAP, 2023) [3]</div>
       </div>
     </div>
 
@@ -573,22 +636,64 @@ footer {
       <div class="chart-header">
         <p class="chart-num">Chart A</p>
         <h3 class="chart-title">Immigrant workforce concentration vs. AI exposure by U.S. industry</h3>
-        <p class="chart-subtitle">Industries where immigrants are most concentrated tend to overlap with sectors rated high on AI task exposure. The dual vulnerability is most acute in professional services and information technology.</p>
+        <p class="chart-subtitle">Industries are <strong>sorted from highest to lowest AI exposure</strong>. The sectors most exposed to AI task automation — information technology, professional &amp; business services, and finance — also carry above-average immigrant workforce shares, concentrating the "dual vulnerability." Reading the chart left-to-right shows exposure falling faster than immigrant concentration, so the overlap is sharpest at the high-exposure end.</p>
       </div>
       <div class="chart-body">
         <div class="legend">
           <span class="legend-item"><span class="lg" style="background:#059669;"></span>Immigrant share of industry workforce (%)</span>
-          <span class="legend-item"><span class="lg" style="background:#dc2626;"></span>Estimated AI exposure index (0–100)</span>
+          <span class="legend-item"><span class="lg" style="background:#dc2626;"></span>AI Exposure Index (0–100, synthesized — see note)</span>
         </div>
-        <div style="position:relative; width:100%; height:320px;">
-          <canvas id="chartA" role="img" aria-label="Grouped bar chart comparing immigrant workforce concentration and AI exposure by U.S. industry sector."></canvas>
+        <div class="cwrap cw-320">
+          <canvas id="chartA" role="img" aria-label="Grouped bar chart comparing immigrant workforce concentration and AI exposure by U.S. industry sector, sorted by AI exposure."></canvas>
         </div>
-        <p class="source">Sources: BLS Foreign-Born Labor Force Report 2024 (May 2025); Massenkoff &amp; McCrory, Anthropic (2026); O*NET 28.0</p>
+        <p class="source">Sources: Immigrant shares — BLS, Foreign-Born Workers 2025 (2026) [1]. AI Exposure Index — synthesized composite (Eloundou et al. 2023 [4]; O*NET 28.0 [5]); see methodology note. The two series are drawn from different years and scales and should be read as directional.</p>
       </div>
     </div>
   </div>
 
-  <!-- SECTION 2 -->
+  <!-- SECTION 2 — THEN THE OUTCOME -->
+  <div class="section-divider" id="figures">
+    <p class="section-label">Expected Outcomes</p>
+    <h2>From Exposure to Employment:<br>Who Grows, Who Shrinks</h2>
+    <p class="narrative">Having established <em>which</em> industries carry the most AI exposure, the question becomes <em>what happens to employment</em>. The following figures move from the industry-level exposure picture above to occupation-level outcomes, pairing the synthesized AI Exposure Index against projected employment trends derived from BLS occupational projections (2024–2034 cycle).</p>
+
+    <!-- Figure 1 -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <p class="chart-num">Figure 1</p>
+        <h3 class="chart-title">5-Year Employment Trend Forecast by AI Exposure Group</h3>
+        <p class="chart-subtitle">This line chart shows the projected employment trend from 2025 to 2030 by AI exposure group, indexed to 2025 = 100. All three groups grow over the period, but <strong>high-exposure jobs rise the most</strong> — reaching an index of 102.0 by 2030 — consistent with AI <em>augmenting</em> rather than purely displacing these occupations. Medium-exposure jobs grow the least (101.2), the pattern expected when automation competes with workers without clear complementarity gains. Levels are illustrative, normalized values — not official BLS index points.</p>
+      </div>
+      <div class="chart-body">
+        <div class="legend">
+          <span class="legend-item"><span class="lg" style="background:#dc2626;"></span>High Exposure</span>
+          <span class="legend-item"><span class="lg" style="background:#d97706;"></span>Medium Exposure</span>
+          <span class="legend-item"><span class="lg" style="background:#059669;"></span>Low Exposure</span>
+        </div>
+        <div class="cwrap cw-340">
+          <canvas id="fig1" role="img" aria-label="Line chart showing 5-year employment trend forecast by AI exposure group from 2025 to 2030."></canvas>
+        </div>
+        <p class="source">Source: Illustrative trend normalized to 2025 = 100, derived from BLS Employment Projections, 2024–2034 [6]; exposure groupings from the Anthropic Economic Index / Massenkoff &amp; McCrory (2026) [7] and O*NET 28.0 [5].</p>
+      </div>
+    </div>
+
+    <!-- Figure 2 (occupational risk matrix — single bubble chart; the redundant grouped-bar version was removed) -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <p class="chart-num">Figure 2</p>
+        <h3 class="chart-title">Occupational Risk Matrix: AI Exposure vs. Job Growth</h3>
+        <p class="chart-subtitle">This bubble chart maps six key occupations by AI Exposure Index (x-axis) and approximate projected job growth (y-axis); bubble size reflects relative workforce size. The quadrants reveal the critical distinction: <strong>upper-right</strong> occupations (Software Dev, Legal Services) face high exposure but maintain positive growth — AI augments rather than replaces. <strong>Lower-right</strong> occupations (Data Entry, Customer Support) face high exposure <em>and</em> decline — the greatest displacement risk. Transport (lower exposure, positive growth) and HC Support (moderate exposure, modest growth) sit in safer territory.</p>
+      </div>
+      <div class="chart-body">
+        <div class="cwrap cw-400">
+          <canvas id="fig2" role="img" aria-label="Bubble chart mapping occupations by AI exposure index and projected job growth, with bubble size for workforce size."></canvas>
+        </div>
+        <p class="source">Sources: Approximate job-growth figures derived from BLS Occupational Outlook Handbook / Employment Projections, 2024–2034 [6]; AI Exposure Index — synthesized composite (Eloundou et al. 2023 [4]); bubble size represents relative workforce size. Growth values are approximate and illustrative.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
   <div class="section-divider" id="paradox">
     <p class="section-label">The H-1B Paradox</p>
     <h2>Cheap Labor, High Exposure —<br>The H-1B Squeeze</h2>
@@ -602,10 +707,10 @@ footer {
           <p class="chart-subtitle">Post-ChatGPT trend in new hire rates for young workers (22–25) in high-exposure occupations.</p>
         </div>
         <div class="chart-body">
-          <div style="position:relative; width:100%; height:200px;">
+          <div class="cwrap cw-200">
             <canvas id="chartB" role="img" aria-label="Line chart showing decline in job start rates for young workers in AI-exposed occupations after ChatGPT release."></canvas>
           </div>
-          <p class="source">Source: Massenkoff &amp; McCrory (2026) via CPS; Brynjolfsson et al. (2025)</p>
+          <p class="source">Source: Anthropic Economic Index / Massenkoff &amp; McCrory (2026), via CPS [7]; Brynjolfsson et al. (2025) [15].</p>
         </div>
       </div>
 
@@ -616,17 +721,17 @@ footer {
           <p class="chart-subtitle">Firms simultaneously receiving H-1B approvals and announcing workforce reductions — a key tension in the current policy debate.</p>
         </div>
         <div class="chart-body">
-          <div style="position:relative; width:100%; height:200px;">
+          <div class="cwrap cw-200">
             <canvas id="chartC" role="img" aria-label="Bar chart comparing H-1B approvals and concurrent layoffs at major tech companies."></canvas>
           </div>
-          <p class="source">Source: USCIS FY2025 FOIA data; Newsweek (Aug 2025); White House proclamation (Sep 2025)</p>
+          <p class="source">Source: USCIS H-1B Employer Data Hub, FY2024–25 [2]; White House Proclamation, Sep 2025 [14]. Approval and layoff counts are rounded to thousands.</p>
         </div>
       </div>
     </div>
 
     <div class="key-insight">
       <div class="insight-bar" style="background:var(--coral);"></div>
-      <p class="insight-text">In FY2025, one software company received over 5,000 H-1B approvals while simultaneously announcing 15,000+ layoffs. A third firm reduced its workforce by ~27,000 since 2022 while being approved for 25,000+ H-1B workers over the same period (White House, Sep 2025). <strong>AI adoption is being used to justify domestic workforce reduction while immigration channels keep high-exposure roles filled at lower cost</strong> — compressing wages and narrowing entry points for both native-born and immigrant workers.</p>
+      <p class="insight-text">In FY2025, one software company, which is widely reported to be Microsoft (White House, Sep 2025), received over 5,000 H-1B approvals while simultaneously announcing 15,000-16,000 layoffs. Also, Amazon reduced 27,000 of its workforcesince 2022 while approving 25,000+ H-1B workers over the same period. <strong>AI adoption is being used to justify domestic workforce reduction while immigration channels keep high-exposure roles filled at lower cost</strong> — compressing wages and narrowing entry points for both native-born and immigrant workers.</p>
     </div>
   </div>
 
@@ -639,19 +744,19 @@ footer {
     <div class="stat-grid">
       <div class="stat-card">
         <div class="stat-value" style="color:var(--coral);">~3%</div>
-        <div class="stat-label">Foreign-born share of South Korea's workforce (OECD 2024, vs. 13% in Germany, 18% in Canada)</div>
+        <div class="stat-label">Foreign-born share of South Korea's workforce, 2024 (OECD; vs. 13% Germany, 18% Canada) [8]</div>
       </div>
       <div class="stat-card">
         <div class="stat-value" style="color:var(--amber);">38.8%</div>
-        <div class="stat-label">Korean jobs at risk of 70%+ task automation as of 2023 (KDI Research Monograph 2023)</div>
+        <div class="stat-label">Korean jobs at risk of 70%+ task automation, 2023 (KDI Research Monograph) [9]</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value" style="color:var(--purple);">2024</div>
-        <div class="stat-label">Year Korea entered "super-aged" status (20%+ population aged 65+)</div>
+        <div class="stat-value" style="color:var(--purple);">Dec 2024</div>
+        <div class="stat-label">Korea entered "super-aged" status — 10.24M (20%) of 51M aged 65+ (Statistics Korea) [10]</div>
       </div>
       <div class="stat-card">
         <div class="stat-value" style="color:var(--coral);">37th</div>
-        <div class="stat-label">Korea's IMD World Talent Ranking in 2025, down from 26th in 2024</div>
+        <div class="stat-label">Korea's IMD World Talent Ranking in 2025, down from 26th in 2024 [11]</div>
       </div>
     </div>
 
@@ -662,6 +767,7 @@ footer {
         <p class="chart-subtitle">A direct comparison of immigration policy openness, workforce AI exposure distribution, and demographic labor buffer capacity.</p>
       </div>
       <div class="chart-body">
+        <div class="table-scroll">
         <table class="comparison-table">
           <thead>
             <tr>
@@ -688,13 +794,13 @@ footer {
             </tr>
             <tr>
               <td>AI adoption rate (firms)</td>
-              <td>Broad; ~77% of employers plan upskilling</td>
-              <td>Low; only 4.3% of firms adopted AI as of 2022 (Statistics Korea Business Activities Survey), up from 1.4% in 2017</td>
+              <td>Broad; ~77% of employers plan AI-driven upskilling (WEF, 2025)</td>
+              <td>Low; ~6.4% of firms had adopted AI by 2023 (Statistics Korea, 2024 Survey of Business Activities), up from 1.4% in 2017</td>
             </tr>
             <tr>
               <td>Demographic labor buffer</td>
               <td><span class="badge badge-mid">Medium</span> Immigration partially offsets aging</td>
-              <td><span class="badge badge-low">Low</span> Working-age pop. projected −35% by 2050</td>
+              <td><span class="badge badge-low">Low</span> Working-age population projected to halve by 2072</td>
             </tr>
             <tr>
               <td>AI + demographic compounding risk</td>
@@ -708,7 +814,8 @@ footer {
             </tr>
           </tbody>
         </table>
-        <p class="source">Sources: BLS (2025); OECD International Migration Outlook 2024–2025; KDI (2023); IMF Korea Selected Issues (2025); Korea Times (2025)</p>
+        </div>
+        <p class="source">Sources: U.S. foreign-born share — BLS, Foreign-Born Workers 2025 (2026) [1]; H-1B detail — USCIS FY2024 [2]. Korea foreign-born share — OECD International Migration Outlook 2024 [8]. Korea AI adoption — Statistics Korea, 2024 Survey of Business Activities [12]; IMF, <em>Republic of Korea: Selected Issues — The Impact of AI in Korea</em> (2025) [13]. Demographics — Statistics Korea, Dec 2024 [10]. H-1B reform — White House Proclamation, Sep 2025 [14]. Figures are matched to the most recent year available for each series.</p>
       </div>
     </div>
   </div>
@@ -726,10 +833,10 @@ footer {
         <p class="chart-subtitle">Countries with higher immigrant workforce shares tend to have greater flexibility in absorbing labor market disruption. Low-immigration economies face a double constraint: demographic decline and AI displacement hitting the same shrinking domestic workforce. AI exposure values are estimates based on occupational composition analysis; exact per-country indices are not available from a single authoritative source.</p>
       </div>
       <div class="chart-body">
-        <div style="position:relative; width:100%; height:360px;">
+        <div class="cwrap cw-360">
           <canvas id="chartE" role="img" aria-label="Bubble chart of foreign-born workforce share vs. aggregate AI exposure index for selected countries."></canvas>
         </div>
-        <p class="source">Sources: OECD International Migration Outlook 2024; Pizzinelli et al., IMF WP 2023/216; Eloundou et al. (2023). <em>Note: Country-level AI exposure index values (0–100) are illustrative estimates derived from occupational composition and AI task-exposure analysis; no single published dataset provides exact per-country indices on this scale.</em></p>
+        <p class="source">Sources: Foreign-born shares — OECD International Migration Outlook 2024 [8]. AI exposure — synthesized composite (Pizzinelli et al., IMF WP 2023/216 [16]; Eloundou et al. 2023 [4]). <em>Note: the country-level AI exposure values (0–100) are illustrative estimates from the synthesized index described in the methodology note — no single published dataset provides exact per-country indices on this scale.</em></p>
       </div>
     </div>
 
@@ -760,9 +867,32 @@ footer {
       </div>
     </div>
 
-    <p class="source" style="font-size:11.5px; margin-top:4px; border-top:1px solid var(--border-light); padding-top:16px;">
-      Data sources: BLS (2024–2025) · OECD International Migration Outlook 2024 &amp; 2025 · Anthropic Economic Index / Massenkoff &amp; McCrory (2026) · KDI Research Monograph (2023) · IMF Korea Selected Issues (2025) · WEF Future of Jobs Report (2025) · USCIS FOIA data FY2022–2025 · White House Proclamation Sep 2025 · Korea Times (Nov 2025) · Economic Innovation Group (2025)
-    </p>
+  </div>
+
+  <!-- REFERENCES -->
+  <div class="section-divider" id="references">
+    <p class="section-label">References</p>
+    <h2>Sources &amp; Citations</h2>
+    <p class="narrative">Every data point above is keyed to a numbered reference below. The "AI Exposure Index" is a synthesized composite (see the methodology note at the top), built from [4], [5], and [16]; it is not an officially published figure.</p>
+    <ol class="references">
+      <li>U.S. Bureau of Labor Statistics. (2026). <em>Labor Force Characteristics of Foreign-Born Workers — 2025.</em> <a href="https://www.bls.gov/news.release/forbrn.nr0.htm" target="_blank">bls.gov/news.release/forbrn.nr0.htm</a></li>
+      <li>U.S. Citizenship and Immigration Services. (2025). <em>Characteristics of H-1B Specialty Occupation Workers, Fiscal Year 2024 Report to Congress;</em> and USCIS H-1B Employer Data Hub. <a href="https://www.uscis.gov/sites/default/files/document/reports/ola_signed_h1b_characteristics_congressional_report_FY24.pdf" target="_blank">uscis.gov (FY2024 characteristics report)</a></li>
+      <li>National Foundation for American Policy (NFAP). (2023). <em>Immigrant Founders of America's AI Companies.</em> <a href="https://nfap.com/" target="_blank">nfap.com</a></li>
+      <li>Eloundou, T., Manning, S., Mishkin, P., &amp; Rock, D. (2023). <em>GPTs are GPTs: An Early Look at the Labor Market Impact Potential of Large Language Models.</em> arXiv:2303.10130. <a href="https://arxiv.org/abs/2303.10130" target="_blank">arxiv.org/abs/2303.10130</a></li>
+      <li>National Center for O*NET Development. (2024). <em>O*NET 28.0 Database.</em> <a href="https://www.onetcenter.org/database.html" target="_blank">onetcenter.org/database.html</a></li>
+      <li>U.S. Bureau of Labor Statistics. (2025). <em>Employment Projections, 2024–2034;</em> Occupational Outlook Handbook. <a href="https://www.bls.gov/emp/" target="_blank">bls.gov/emp</a></li>
+      <li>Massenkoff, M., &amp; McCrory, J. / Anthropic Economic Index. (2026). <em>Generative AI and the labor market for young workers.</em> <a href="https://www.anthropic.com/economic-index" target="_blank">anthropic.com/economic-index</a></li>
+      <li>OECD. (2024). <em>International Migration Outlook 2024.</em> <a href="https://www.oecd.org/en/publications/international-migration-outlook-2024_50b0353e-en.html" target="_blank">oecd.org</a></li>
+      <li>Korea Development Institute (KDI). (2023). <em>Research Monograph on AI/automation exposure of Korean occupations.</em> <a href="https://www.kdi.re.kr/" target="_blank">kdi.re.kr</a></li>
+      <li>Statistics Korea (KOSTAT). (December 2024). <em>Population estimates — Korea reaches "super-aged" society.</em> <a href="https://kostat.go.kr/" target="_blank">kostat.go.kr</a> (reported via Korea Herald / CNN, Dec 2024)</li>
+      <li>IMD World Competitiveness Center. (2025). <em>IMD World Talent Ranking 2025.</em> <a href="https://www.imd.org/centers/wcc/world-competitiveness-center/rankings/world-talent-ranking/" target="_blank">imd.org</a></li>
+      <li>Statistics Korea (KOSTAT). (2024). <em>Survey of Business Activities</em> (KOSIS) — firm AI adoption. <a href="https://kosis.kr/" target="_blank">kosis.kr</a></li>
+      <li>International Monetary Fund. (2025). <em>Republic of Korea: Selected Issues — Transforming the Future: The Impact of Artificial Intelligence in Korea.</em> <a href="https://www.elibrary.imf.org/view/journals/018/2025/013/article-A001-en.xml" target="_blank">elibrary.imf.org</a></li>
+      <li>The White House. (September 2025). <em>Proclamation restricting/reforming the H-1B program ($100K fee).</em> <a href="https://www.federalregister.gov/" target="_blank">federalregister.gov</a></li>
+      <li>Brynjolfsson, E., et al. (2025). <em>Generative AI and entry-level employment.</em> Stanford Digital Economy Lab.</li>
+      <li>Pizzinelli, C., et al. (2023). <em>Labor Market Exposure to AI: Cross-country Differences and Distributional Implications.</em> IMF Working Paper WP/23/216. <a href="https://www.imf.org/en/Publications/WP/Issues/2023/10/04/Labor-Market-Exposure-to-AI-Cross-country-Differences-and-Distributional-Implications-539656" target="_blank">imf.org (WP/23/216)</a></li>
+      <li>World Economic Forum. (2025). <em>Future of Jobs Report 2025.</em> <a href="https://www.weforum.org/publications/the-future-of-jobs-report-2025/" target="_blank">weforum.org</a></li>
+    </ol>
   </div>
 
 </main>
@@ -777,6 +907,10 @@ const FONT = "ui-monospace, 'Courier New', monospace";
 Chart.defaults.color = '#595959';
 Chart.defaults.font.family = FONT;
 Chart.defaults.font.size = 11;
+
+// On narrow screens a right-side legend gets cramped — move it below the chart.
+const isMobile = window.matchMedia('(max-width: 640px)').matches;
+const sideLegendPos = isMobile ? 'bottom' : 'right';
 
 const tp = {
   backgroundColor: '#111',
@@ -860,58 +994,7 @@ new Chart(document.getElementById('fig1'), {
   }
 });
 
-// Figure 2 — Occupational Risk Matrix (grouped bar)
-new Chart(document.getElementById('fig2'), {
-  type: 'bar',
-  data: {
-    labels: ['Legal Services', 'Data Entry', 'Customer Support', 'Software Dev', 'HC Support', 'Transport'],
-    datasets: [
-      {
-        label: 'AI Exposure Index (÷10 for scale)',
-        data: [7.8, 8.0, 7.5, 8.6, 3.9, 2.8],
-        backgroundColor: 'rgba(26,35,64,0.88)',
-        borderColor: '#1a2340',
-        borderWidth: 1,
-        borderRadius: 0,
-      },
-      {
-        label: 'Approx. BLS Job Growth % (2025–2030)',
-        data: [2.0, -13.9, -2.8, 7.6, 1.1, 2.0],
-        backgroundColor: 'rgba(5,150,105,0.75)',
-        borderColor: '#059669',
-        borderWidth: 1,
-        borderRadius: 0,
-      }
-    ]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        ...tp,
-        callbacks: {
-          label: c => {
-            if (c.datasetIndex === 0) return ` AI Exposure Index: ${(c.parsed.y * 10).toFixed(0)}/100`;
-            return ` Job Growth: ${c.parsed.y}%`;
-          }
-        }
-      }
-    },
-    scales: {
-      x: { ticks: { color: '#595959', font: { size: 10 } }, grid: { display: false } },
-      y: {
-        min: -15, max: 10,
-        ticks: { color: '#595959', callback: v => v },
-        grid: { color: 'rgba(0,0,0,0.05)' },
-        border: { color: '#e5e7eb' }
-      }
-    }
-  }
-});
-
-// Figure 3 — Bubble chart (AI Exposure vs Job Growth)
+// Figure 2 — Occupational Risk Matrix (bubble; the redundant grouped-bar version was removed per feedback)
 const fig3Occupations = [
   { label: 'Software Dev',     x: 85, y: 7.6,   r: 18, color: '#20b2aa' },
   { label: 'Legal Services',   x: 78, y: 2.0,   r: 14, color: '#e07070' },
@@ -921,7 +1004,7 @@ const fig3Occupations = [
   { label: 'Transport',        x: 27, y: 2.0,   r: 19, color: '#6baed6' },
 ];
 
-new Chart(document.getElementById('fig3'), {
+new Chart(document.getElementById('fig2'), {
   type: 'bubble',
   data: {
     datasets: fig3Occupations.map(o => ({
@@ -936,7 +1019,7 @@ new Chart(document.getElementById('fig3'), {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { display: true, position: 'right', labels: { color: '#595959', boxWidth: 8, font: { size: 11 }, padding: 14 } },
+      legend: { display: true, position: sideLegendPos, labels: { color: '#595959', boxWidth: 8, font: { size: 11 }, padding: 14 } },
       tooltip: {
         ...tp,
         callbacks: { label: c => ` ${c.dataset.label} — AI Exposure: ${c.parsed.x}/100, Growth: ${c.parsed.y}%` }
@@ -965,19 +1048,19 @@ new Chart(document.getElementById('fig3'), {
 new Chart(document.getElementById('chartA'), {
   type: 'bar',
   data: {
-    labels: ['Prof & Business', 'Info Technology', 'Healthcare & Edu', 'Construction', 'Leisure & Hosp', 'Financial', 'Manufacturing', 'Transportation'],
+    labels: ['Info Technology', 'Prof & Business', 'Financial', 'Healthcare & Edu', 'Manufacturing', 'Transportation', 'Leisure & Hosp', 'Construction'],
     datasets: [
       {
         label: 'Immigrant share of workforce (%)',
-        data: [23, 28, 18, 30, 22, 16, 20, 19],
+        data: [28, 23, 16, 18, 20, 19, 22, 30],
         backgroundColor: 'rgba(5,150,105,0.7)',
         borderColor: '#059669',
         borderWidth: 1,
         borderRadius: 0,
       },
       {
-        label: 'AI exposure index (0–100)',
-        data: [80, 84, 45, 23, 31, 80, 42, 33],
+        label: 'AI Exposure Index (0–100, synthesized)',
+        data: [84, 80, 80, 45, 42, 33, 31, 23],
         backgroundColor: 'rgba(220,38,38,0.65)',
         borderColor: '#dc2626',
         borderWidth: 1,
@@ -1109,7 +1192,7 @@ new Chart(document.getElementById('chartE'), {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { display: true, position: 'right', labels: { color: '#595959', boxWidth: 8, font: { size: 11 }, padding: 12 } },
+      legend: { display: true, position: sideLegendPos, labels: { color: '#595959', boxWidth: 8, font: { size: 11 }, padding: 12 } },
       tooltip: { ...tp, callbacks: { label: c => ` ${c.dataset.label} — Immigration: ${c.parsed.x}%, AI Exposure: ${c.parsed.y}/100` } }
     },
     scales: {
