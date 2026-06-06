@@ -1306,6 +1306,11 @@ const fig3Occupations = [
       let x = bubble.x + radius + 7;
       const y = bubble.y;
 
+      // Transport 라벨은 버블 왼쪽에 표시
+      if (dataset.label === 'Transport') {
+        x = bubble.x - radius - labelWidth - 7;
+      }
+      
       // 오른쪽 공간이 부족하면 버블 왼쪽에 표시
       if (x + labelWidth > chartArea.right) {
         x = bubble.x - radius - labelWidth - 7;
@@ -1336,7 +1341,7 @@ new Chart(document.getElementById('fig2'), {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { display: true, position: sideLegendPos, labels: { color: '#595959', boxWidth: 8, font: { size: 11 }, padding: 14 } },
+      legend: { display: false},
       tooltip: {
         ...tp,
         callbacks: { label: c => ` ${c.dataset.label} — AI Exposure: ${c.parsed.x}/100, Growth: ${c.parsed.y}%` }
