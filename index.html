@@ -745,48 +745,6 @@ html { scroll-behavior: smooth; }
 
 
 
-  <!-- SECTION 3 -->
-  <div class="section-divider" id="paradox">
-    <p class="section-label">The H-1B Paradox</p>
-    <h2>Cheap Labor, High Exposure —<br>The H-1B Squeeze</h2>
-    <p class="narrative">Critics argue that H-1B visas allow firms to undercut domestic wages in AI-exposed roles. Proponents counter that immigrant talent builds the AI ecosystem itself. The data reveals both are partially true — creating a paradox where <strong>immigration simultaneously accelerates and is threatened by AI displacement</strong>.</p>
-
-    <div class="two-col">
-      <div class="chart-card" style="margin-bottom:0;">
-        <div class="chart-header">
-          <p class="chart-num">Chart B</p>
-          <h3 class="chart-title">Entry-level job postings decline in AI-exposed sectors</h3>
-          <p class="chart-subtitle">Post-ChatGPT trend in new hire rates for young workers (22–25) in high-exposure occupations.</p>
-        </div>
-        <div class="chart-body">
-          <div class="cwrap cw-200">
-            <canvas id="chartB" role="img" aria-label="Line chart showing decline in job start rates for young workers in AI-exposed occupations after ChatGPT release."></canvas>
-          </div>
-          <p class="source">Source: Anthropic Economic Index / Massenkoff &amp; McCrory (2026), via CPS [7]; Brynjolfsson et al. (2025) [15].</p>
-        </div>
-      </div>
-
-      <div class="chart-card" style="margin-bottom:0;">
-        <div class="chart-header">
-          <p class="chart-num">Chart C</p>
-          <h3 class="chart-title">H-1B approvals vs. tech layoffs, major firms</h3>
-          <p class="chart-subtitle">Firms simultaneously receiving H-1B approvals and announcing workforce reductions — a key tension in the current policy debate.</p>
-        </div>
-        <div class="chart-body">
-          <div class="cwrap cw-200">
-            <canvas id="chartC" role="img" aria-label="Bar chart comparing H-1B approvals and concurrent layoffs at major tech companies."></canvas>
-          </div>
-          <p class="source">Source: USCIS H-1B Employer Data Hub, FY2024–25 [2]; White House Proclamation, Sep 2025 [14]. Approval and layoff counts are rounded to thousands.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="key-insight">
-      <div class="insight-bar" style="background:var(--coral);"></div>
-      <p class="insight-text">In FY2025, one software company, which is widely reported to be Microsoft (White House, Sep 2025), received over 5,000 H-1B approvals while simultaneously announcing 15,000-16,000 layoffs. Also, Amazon reduced its workforce by 27,000 since 2022 while approving 25,000+ H-1B workers over the same period. <strong>AI adoption is being used to justify domestic workforce reduction while immigration channels keep high-exposure roles filled at lower cost</strong> — compressing wages and narrowing entry points for both native-born and immigrant workers.</p>
-    </div>
-  </div>
-
  <!-- SECTION 3 -->
   <div class="section-divider" id="korea">
     <p class="section-label">Comparative Case</p>
@@ -823,45 +781,112 @@ html { scroll-behavior: smooth; }
           <thead>
             <tr>
               <th>Dimension</th>
-              <th>United States</th>
-              <th>South Korea</th>
+              <th class="col-us">🇺🇸 United States</th>
+              <th class="col-kr">🇰🇷 South Korea</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>Foreign-born workforce share</td>
-              <td><span style="color: var(--teal);">19.1%</span> (2025, BLS May 2026)</td>
-              <td><span style="color: var(--coral);">~3.9%</span> (2025, Statistics Korea)</td>
+              <td>
+                <div class="ct-bar-wrap">
+                  <div class="ct-bar" style="width:76px;background:var(--teal);"></div>
+                  <span class="ct-bar-label" style="color:var(--teal);">19.1%</span>
+                </div>
+                <div class="ct-detail">2025, BLS May 2026</div>
+              </td>
+              <td>
+                <div class="ct-bar-wrap">
+                  <div class="ct-bar" style="width:16px;background:var(--coral);"></div>
+                  <span class="ct-bar-label" style="color:var(--coral);">~3.9%</span>
+                </div>
+                <div class="ct-detail">2025, Statistics Korea</div>
+              </td>
             </tr>
             <tr>
               <td>High-skill immigration channel</td>
-              <td>H-1B visa (85,000 cap/yr); 64% in computer-related roles (USCIS FY2024)</td>
-              <td>E-7 visa (105 occupations, expanded 2025); EPS (E-9) quota 130K, low-skill manufacturing only</td>
+              <td>
+                <div class="ct-stat" style="font-size:15px;">H-1B Visa</div>
+                <div class="ct-detail">85,000 cap/yr; 64% in computer-related roles<br>USCIS FY2024</div>
+              </td>
+              <td>
+                <div class="ct-stat" style="font-size:15px;">E-7 / E-9 Visa</div>
+                <div class="ct-detail">E-7: 105 occupations (expanded 2025)<br>E-9: 130K quota, low-skill manufacturing only</div>
+              </td>
             </tr>
             <tr>
               <td>AI exposure — dominant risk sector</td>
-              <td><span class="badge badge-high">High</span> ~60% of jobs exposed; professional &amp; business services, tech (IMF WEO, Apr 2025)</td>
-              <td><span class="badge badge-high">High</span> ~63% of jobs exposed; clerical roles dominant; polarized structure (IMF WEO, Apr 2025)</td>
+              <td>
+                <span class="badge badge-high">High</span>
+                <div class="ct-bar-wrap">
+                  <div class="ct-bar" style="width:60px;background:var(--coral);"></div>
+                  <span class="ct-bar-label" style="color:var(--coral);">~60%</span>
+                </div>
+                <div class="ct-detail">Professional &amp; business services, tech<br>IMF WEO, Apr 2025</div>
+              </td>
+              <td>
+                <span class="badge badge-high">High</span>
+                <div class="ct-bar-wrap">
+                  <div class="ct-bar" style="width:63px;background:var(--coral);"></div>
+                  <span class="ct-bar-label" style="color:var(--coral);">~63%</span>
+                </div>
+                <div class="ct-detail">Clerical roles dominant; polarized structure<br>IMF WEO, Apr 2025</div>
+              </td>
             </tr>
             <tr>
               <td>AI adoption rate (firms)</td>
-              <td>7.5% of firms use AI to produce goods/services (U.S. Census BTOS, Q1 2025)</td>
-              <td>~13.5% of firms use AI tools in some capacity (KISDI, 2025)</td>
+              <td>
+                <div class="ct-bar-wrap">
+                  <div class="ct-bar" style="width:30px;background:var(--blue);"></div>
+                  <span class="ct-bar-label" style="color:var(--blue);">7.5%</span>
+                </div>
+                <div class="ct-detail">Firms using AI to produce goods/services<br>U.S. Census BTOS, Q1 2025</div>
+              </td>
+              <td>
+                <div class="ct-bar-wrap">
+                  <div class="ct-bar" style="width:54px;background:var(--blue);"></div>
+                  <span class="ct-bar-label" style="color:var(--blue);">~13.5%</span>
+                </div>
+                <div class="ct-detail">Firms using AI tools in some capacity<br>KISDI, 2025</div>
+              </td>
             </tr>
             <tr>
               <td>Demographic labor buffer</td>
-              <td><span class="badge badge-mid">Medium</span> Working-age pop. stable to 2050 (+0.5%); TFR 1.60 (2024, CDC NVSS 2025); immigration offsets aging</td>
-              <td><span class="badge badge-low">Low</span> Working-age pop. projected −35% by 2050; TFR 0.75 (2024, Statistics Korea 2025); world's lowest</td>
+              <td>
+                <span class="badge badge-mid">Medium</span>
+                <div class="ct-dots" style="color:var(--amber);">
+                  <span class="ct-dot filled"></span><span class="ct-dot filled"></span><span class="ct-dot filled"></span><span class="ct-dot"></span><span class="ct-dot"></span>
+                </div>
+                <div class="ct-detail">Working-age pop. stable to 2050 (+0.5%)<br>TFR 1.60 (CDC NVSS 2025); immigration offsets aging</div>
+              </td>
+              <td>
+                <span class="badge badge-low">Low</span>
+                <div class="ct-dots" style="color:var(--coral);">
+                  <span class="ct-dot filled"></span><span class="ct-dot"></span><span class="ct-dot"></span><span class="ct-dot"></span><span class="ct-dot"></span>
+                </div>
+                <div class="ct-detail">Working-age pop. projected <strong style="color:var(--coral);">−35%</strong> by 2050<br>TFR 0.75 (Statistics Korea 2025); world's lowest</div>
+              </td>
+            </tr>
+            <tr class="sep-row">
+              <td colspan="3">Risk Assessment &amp; Policy</td>
             </tr>
             <tr>
               <td>AI + demographic compounding risk</td>
-              <td>AI threatens immigrant-heavy AI-exposed roles; wage compression visible</td>
-              <td>AI displaces domestic clerical workforce with no immigrant buffer; demographic shrinkage accelerates</td>
+              <td>
+                <div class="ct-detail" style="font-size:12.5px;color:var(--muted);">AI threatens immigrant-heavy AI-exposed roles; <strong style="color:var(--text);">wage compression</strong> visible</div>
+              </td>
+              <td>
+                <div class="ct-detail" style="font-size:12.5px;color:var(--muted);">AI displaces domestic clerical workforce with <strong style="color:var(--coral);">no immigrant buffer</strong>; demographic shrinkage accelerates</div>
+              </td>
             </tr>
             <tr>
               <td>Policy response</td>
-              <td>H-1B modernization rule (Jan 2025); $100K supplemental fee (Sep 2025); beneficiary-centric selection</td>
-              <td>E-7 expansion (AI/semiconductor roles); E-9 quota cut 165K→130K; Top-Tier Talent visa; AI Basic Act (Jan 2026)</td>
+              <td>
+                <div class="ct-detail" style="font-size:12.5px;color:var(--muted);">H-1B modernization rule (Jan 2025); $100K supplemental fee (Sep 2025); beneficiary-centric selection</div>
+              </td>
+              <td>
+                <div class="ct-detail" style="font-size:12.5px;color:var(--muted);">E-7 expansion (AI/semiconductor roles); E-9 quota cut 165K→130K; Top-Tier Talent visa; AI Basic Act (Jan 2026)</div>
+              </td>
             </tr>
           </tbody>
         </table>
