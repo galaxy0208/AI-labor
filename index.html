@@ -607,7 +607,85 @@ h2 {
   display: block;
 }
 
-.method-note .insight-text strong { color: var(--text); font-weight: 600; }
+.method-note .insight-text strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ─── NEW METHODOLOGY OVERVIEW ─── */
+.method-overview {
+  background: #fffbeb;
+  padding: 28px 30px;
+}
+
+.method-title {
+  max-width: 680px;
+  margin: 4px 0 10px;
+  font-size: 19px;
+  line-height: 1.4;
+}
+
+.method-summary {
+  max-width: 760px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.75;
+  margin-bottom: 22px;
+}
+
+.method-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.method-item {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  padding: 18px;
+}
+
+.method-number {
+  display: inline-block;
+  color: var(--amber);
+  font-size: 10px;
+  font-weight: 700;
+  margin-bottom: 9px;
+}
+
+.method-item h4 {
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.method-item p {
+  color: var(--muted);
+  font-size: 11.5px;
+  line-height: 1.65;
+}
+
+.method-item strong {
+  color: var(--text);
+}
+
+.method-source {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #eadfbd;
+  color: var(--muted2);
+  font-size: 10.5px;
+  line-height: 1.6;
+}
+
+@media (max-width: 700px) {
+  .method-overview {
+    padding: 20px;
+  }
+
+  .method-grid {
+    grid-template-columns: 1fr;
+  }
+}
 
 /* ─── REFERENCES ─── */
 .references {
@@ -808,13 +886,58 @@ html { scroll-behavior: smooth; }
 <main class="main">
 
   <!-- METHODOLOGY NOTE — the AI Exposure Index is a synthesized measure -->
-  <div class="method-note" id="method">
-    <div class="insight-bar"></div>
-    <div>
-      <span class="label">A note on the "AI Exposure Index"</span>
-      <p class="insight-text">There is <strong>no single official statistic</strong> published as an "AI exposure index" on a 0–100 scale. The exposure values used throughout this site are a <strong>synthesized composite that we constructed</strong> by rescaling and combining task-level exposure estimates from <strong>Eloundou et al. (2023)</strong> (GPT task mapping) with <strong>O*NET 28.0</strong> task descriptors, weighted by occupational employment from the <strong>BLS</strong>. It is a <strong>relative, illustrative</strong> measure for cross-occupation and cross-industry comparison — not a directly reported number, and not a probability of job loss. Read it as "higher = more of an occupation's tasks are technically exposed to current large language models." Where exposure is compared against employment or immigration data, note that those underlying series come from different years and survey methodologies; treat the comparison as directional, not precise. See the References section for every source used.</p>
+<div class="method-note method-overview" id="method">
+  <div class="insight-bar"></div>
+
+  <div>
+    <span class="label">Understanding the AI Exposure Index</span>
+
+    <h3 class="method-title">
+      A relative measure of task exposure, not a prediction of job loss
+    </h3>
+
+    <p class="method-summary">
+      No single official AI Exposure Index exists. We constructed this
+      illustrative index to compare how strongly occupations and industries
+      may be affected by current large language models.
+    </p>
+
+    <div class="method-grid">
+      <div class="method-item">
+        <span class="method-number">01</span>
+        <h4>How It Was Built</h4>
+        <p>
+          Combines task-level exposure estimates from
+          <strong>Eloundou et al. (2023)</strong> with
+          <strong>O*NET 28.0</strong> task descriptors and BLS employment data.
+        </p>
+      </div>
+
+      <div class="method-item">
+        <span class="method-number">02</span>
+        <h4>How To Read It</h4>
+        <p>
+          A higher score means that more tasks within an occupation are
+          technically exposed to current large language models.
+        </p>
+      </div>
+
+      <div class="method-item">
+        <span class="method-number">03</span>
+        <h4>Important Limitation</h4>
+        <p>
+          The index is not an official statistic or probability of job loss.
+          Comparisons should be treated as directional rather than precise.
+        </p>
+      </div>
     </div>
+
+    <p class="method-source">
+      Data sources use different years and survey methodologies. See the
+      References section for complete source information.
+    </p>
   </div>
+</div>
 
   <!-- SECTION 1 — INDUSTRY FIRST -->
   <div class="section-divider" id="context">
