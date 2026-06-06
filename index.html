@@ -727,69 +727,22 @@ html { scroll-behavior: smooth; }
       </div>
     </div>
 
-    // Figure 2 — Occupational Risk Matrix (bubble)
-const fig2Occupations = [
-  { label: 'Software Dev',     x: 85, y: 7.6,   r: 18, color: '#20b2aa' },
-  { label: 'Legal Services',   x: 78, y: 2.0,   r: 14, color: '#e07070' },
-  { label: 'Customer Support', x: 75, y: -2.8,  r: 16, color: '#d97706' },
-  { label: 'Data Entry',       x: 79, y: -15.0, r:  7, color: '#dc2626' },
-  { label: 'HC Support',       x: 39, y: 1.1,   r: 17, color: '#3cb371' },
-  { label: 'Transport',        x: 27, y: 2.0,   r: 19, color: '#6baed6' },
-];
+   <!-- Figure 2 (occupational risk matrix �� single bubble chart; the redundant grouped-bar version was removed) -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <p class="chart-num">Figure 2</p>
+        <h3 class="chart-title">Occupational Risk Matrix: AI Exposure vs. Job Growth</h3>
+        <p class="chart-subtitle">This bubble chart maps six key occupations by AI Exposure Index (x-axis) and approximate projected job growth (y-axis); bubble size reflects relative workforce size. The quadrants reveal the critical distinction: <strong>upper-right</strong> occupations (Software Dev, Legal Services) face high exposure but maintain positive growth �� AI augments rather than replaces. <strong>Lower-right</strong> occupations (Data Entry, Customer Support) face high exposure <em>and</em> decline �� the greatest displacement risk. Transport (lower exposure, positive growth) and HC Support (moderate exposure, modest growth) sit in safer territory.</p>
+      </div>
+      <div class="chart-body">
+        <div class="cwrap cw-400">
+          <canvas id="fig2" role="img" aria-label="Bubble chart mapping occupations by AI exposure index and projected job growth, with bubble size for workforce size."></canvas>
+        </div>
+        <p class="source">Sources: Approximate job-growth figures derived from BLS Occupational Outlook Handbook / Employment Projections, 2024��2034 [6]; AI Exposure Index �� synthesized composite (Eloundou et al. 2023 [4]); bubble size represents relative workforce size. Growth values are approximate and illustrative.</p>
+      </div>
+    </div>
+  </div>
 
-new Chart(document.getElementById('fig2'), {
-  type: 'bubble',
-  data: {
-    datasets: fig2Occupations.map(o => ({
-      label: o.label,
-      data: [{ x: o.x, y: o.y, r: o.r }],
-      backgroundColor: o.color + '55',
-      borderColor: o.color,
-      borderWidth: 2,
-      // datalabels용 커스텀 속성
-      datalabels: {
-        display: true,
-        formatter: () => o.label,
-      }
-    }))
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false }, // 오른쪽 범례 숨김 (버블 옆에 직접 표시하니까)
-      tooltip: {
-        ...tp,
-        callbacks: { label: c => ` ${c.dataset.label} — AI Exposure: ${c.parsed.x}/100, Growth: ${c.parsed.y}%` }
-      },
-      datalabels: {
-        color: '#333',
-        font: { family: FONT, size: 11, weight: 600 },
-        anchor: 'end',      // 버블의 끝점 기준
-        align: 'right',     // 오른쪽에 배치
-        offset: 6,          // 버블에서 떨어진 거리
-        clamp: true,        // 차트 영역 밖으로 안 나가게
-      }
-    },
-    scales: {
-      x: {
-        min: 15, max: 100,
-        title: { display: true, text: 'AI Exposure Index (0–100)', color: '#595959', font: { family: FONT, size: 11 } },
-        ticks: { color: '#595959' },
-        grid: { color: 'rgba(0,0,0,0.05)' },
-        border: { color: '#e5e7eb' }
-      },
-      y: {
-        min: -18, max: 10,
-        title: { display: true, text: 'Approx. Job Growth, 2025–2030 (%)', color: '#595959', font: { family: FONT, size: 11 } },
-        ticks: { color: '#595959', callback: v => v + '%' },
-        grid: { color: 'rgba(0,0,0,0.05)' },
-        border: { color: '#e5e7eb' }
-      }
-    }
-  },
-  plugins: [ChartDataLabels] // 플러그인 등록
-});
 
 
   <!-- SECTION 3 -->
