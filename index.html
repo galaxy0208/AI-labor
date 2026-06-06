@@ -1281,10 +1281,46 @@ const fig3Occupations = [
   { label: 'Data Entry',       x: 79, y: -15.0, r:  7, color: '#dc2626' },
   { label: 'HC Support',       x: 39, y: 1.1,   r: 17, color: '#3cb371' },
   { label: 'Transport',        x: 27, y: 2.0,   r: 19, color: '#6baed6' },
+  
+  const bubbleLabels = {
+  id: 'bubbleLabels',
+
+  afterDatasetsDraw(chart) {
+    const { ctx, chartArea } = chart;
+
+    ctx.save();
+    ctx.font = `11px ${FONT}`;
+    ctx.fillStyle = '#333333';
+    ctx.textBaseline = 'middle';
+
+    chart.data.datasets.forEach((dataset, index) => {
+      const bubble = chart.getDatasetMeta(index).data[0];
+      if (!bubble) return;
+
+      const label = dataset.label;
+      const radius = bubble.options.radius;
+      const labelWidth = ctx.measureText(label).width;
+
+      // 기본적으로 버블 오른쪽에 이름 표시
+      let x = bubble.x + radius + 7;
+      const y = bubble.y;
+
+      // 오른쪽 공간이 부족하면 버블 왼쪽에 표시
+      if (x + labelWidth > chartArea.right) {
+        x = bubble.x - radius - labelWidth - 7;
+      }
+
+      ctx.fillText(label, x, y);
+    });
+
+    ctx.restore();
+  }
+};
 ];
 
 new Chart(document.getElementById('fig2'), {
   type: 'bubble',
+  plugins: [bubbleLabels],
   data: {
     datasets: fig3Occupations.map(o => ({
       label: o.label,
