@@ -13,7 +13,7 @@
   --bg: #ffffff;
   --text: #000000;
   --muted: #595959;
-  --muted2: #9ca3af;
+  --muted2: #6b7280;
   --border: #000000;
   --border-light: #e5e7eb;
   --green: #bbf7d0;
@@ -566,9 +566,59 @@ footer {
   max-width: 960px;
   margin: 0 auto;
 }
+
+/* ─── INTERACTION: smooth scroll, gentle section snap, scroll-reveal ─── */
+html { scroll-behavior: smooth; }
+
+/* gentle, non-trapping section snapping (desktop only) */
+@media (min-width: 641px) {
+  html { scroll-snap-type: y proximity; }
+  .hero, .section-divider { scroll-snap-align: start; }
+}
+
+/* top scroll-progress bar */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  width: 0;
+  background: var(--green-dark);
+  z-index: 200;
+  transition: width 0.08s linear;
+  pointer-events: none;
+}
+
+/* active nav link (scrollspy) */
+.nav-links a { position: relative; }
+.nav-links a.active { color: var(--text); }
+.nav-links a.active::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -6px;
+  height: 2px;
+  background: var(--green-dark);
+}
+
+/* scroll-reveal — elements fade + rise into view */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+  will-change: opacity, transform;
+}
+.reveal.in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; scroll-snap-type: none; }
+  .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .scroll-progress { display: none; }
+}
 </style>
 </head>
 <body>
+
+<!-- scroll progress indicator -->
+<div class="scroll-progress" aria-hidden="true"></div>
 
 <!-- NAV -->
 <nav>
@@ -731,31 +781,31 @@ footer {
 
     <div class="key-insight">
       <div class="insight-bar" style="background:var(--coral);"></div>
-      <p class="insight-text">In FY2025, one software company, which is widely reported to be Microsoft (White House, Sep 2025), received over 5,000 H-1B approvals while simultaneously announcing 15,000-16,000 layoffs. Also, Amazon reduced 27,000 of its workforcesince 2022 while approving 25,000+ H-1B workers over the same period. <strong>AI adoption is being used to justify domestic workforce reduction while immigration channels keep high-exposure roles filled at lower cost</strong> — compressing wages and narrowing entry points for both native-born and immigrant workers.</p>
+      <p class="insight-text">In FY2025, one software company, which is widely reported to be Microsoft (White House, Sep 2025), received over 5,000 H-1B approvals while simultaneously announcing 15,000-16,000 layoffs. Also, Amazon reduced its workforce by 27,000 since 2022 while approving 25,000+ H-1B workers over the same period. <strong>AI adoption is being used to justify domestic workforce reduction while immigration channels keep high-exposure roles filled at lower cost</strong> — compressing wages and narrowing entry points for both native-born and immigrant workers.</p>
     </div>
   </div>
 
  <!-- SECTION 3 -->
-  <div class="section-divider">
+  <div class="section-divider" id="korea">
     <p class="section-label">Comparative Case</p>
     <h2>South Korea: Anti-Immigration meets AI Vulnerability</h2>
     <p class="narrative">South Korea presents a structural contrast to the U.S. model. With only <strong>~3.9% of its workforce foreign-born</strong> (vs. 19.1% in the U.S.), Korea has historically maintained tight immigration controls. Yet the country faces compounding pressures: a rapidly aging population, the world's lowest fertility rate (TFR 0.75 in 2024), and a labor structure that the IMF identifies as highly polarized between AI-complementary professional roles and AI-exposed clerical ones.</p>
 
     <div class="stat-grid">
       <div class="stat-card">
-        <div class="stat-value" style="color: var(--coral-light);">~3.9%</div>
+        <div class="stat-value" style="color: var(--coral);">~3.9%</div>
         <div class="stat-label">Foreign-born share of South Korea's workforce (2025, Statistics Korea — vs. 13% in Germany, 19.1% in the U.S.)</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value" style="color: var(--amber-light);">41–43%</div>
+        <div class="stat-value" style="color: var(--amber);">41–43%</div>
         <div class="stat-label">Korean jobs with high AI substitution potential (KIET 2025, up from 38.8% in KDI 2023)</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value" style="color: var(--purple-light);">2025</div>
+        <div class="stat-value" style="color: var(--purple);">2025</div>
         <div class="stat-label">Year Korea officially entered "super-aged" status (20%+ population aged 65+, Statistics Korea)</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value" style="color: var(--red);">37th</div>
+        <div class="stat-value" style="color: var(--coral);">37th</div>
         <div class="stat-label">Korea's IMD World Talent Ranking in 2025, down from 26th in 2024</div>
       </div>
     </div>
@@ -778,12 +828,12 @@ footer {
           <tbody>
             <tr>
               <td>Foreign-born workforce share</td>
-              <td><span style="color: var(--teal-light);">19.1%</span> (2025, BLS May 2026)</td>
-              <td><span style="color: var(--coral-light);">~3.9%</span> (2025, Statistics Korea)</td>
+              <td><span style="color: var(--teal);">19.1%</span> (2025, BLS May 2026)</td>
+              <td><span style="color: var(--coral);">~3.9%</span> (2025, Statistics Korea)</td>
             </tr>
             <tr>
               <td>High-skill immigration channel</td>
-              <td>H-1B visa (85,000 cap/yr); 62% in computer-related roles (USCIS FY2025)</td>
+              <td>H-1B visa (85,000 cap/yr); 64% in computer-related roles (USCIS FY2024)</td>
               <td>E-7 visa (105 occupations, expanded 2025); EPS (E-9) quota 130K, low-skill manufacturing only</td>
             </tr>
             <tr>
@@ -896,7 +946,7 @@ footer {
 </main>
 
 <footer>
-  <p>This website was created by Seung Jun Heo</strong>.</p>
+  <p>This website was created by Seung Jun Heo.</p>
   <p style="margin-top:8px;">Licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/" style="color:var(--text);">CC BY-SA 4.0</a>. Template based on <a href="https://utkuozbulak.github.io/cds_301_template_website/" style="color:var(--text);">CDS 301 Template</a>.</p>
 </footer>
 
@@ -1165,14 +1215,14 @@ new Chart(document.getElementById('chartC'), {
 
 // Chart E
 const countries = [
-  { label: 'United States',  x: 19.2, y: 72, color: '#059669' },
-  { label: 'Canada',         x: 24.0, y: 68, color: '#059669' },
-  { label: 'Germany',        x: 13.0, y: 63, color: '#2563eb' },
-  { label: 'United Kingdom', x: 15.5, y: 70, color: '#2563eb' },
-  { label: 'France',         x: 11.5, y: 61, color: '#2563eb' },
-  { label: 'Italy',          x: 10.5, y: 55, color: '#7c3aed' },
-  { label: 'Japan',          x:  3.5, y: 58, color: '#d97706' },
-  { label: 'South Korea',    x:  3.0, y: 65, color: '#dc2626' },
+  { label: 'United States',  x: 19.1, y: 72, color: '#dc2626' },
+  { label: 'Canada',         x: 24.0, y: 68, color: '#ea580c' },
+  { label: 'Germany',        x: 13.0, y: 63, color: '#d97706' },
+  { label: 'United Kingdom', x: 15.5, y: 70, color: '#16a34a' },
+  { label: 'France',         x: 11.5, y: 61, color: '#0891b2' },
+  { label: 'Italy',          x: 10.5, y: 55, color: '#2563eb' },
+  { label: 'Japan',          x:  3.5, y: 58, color: '#7c3aed' },
+  { label: 'South Korea',    x:  3.0, y: 65, color: '#db2777' },
 ];
 
 new Chart(document.getElementById('chartE'), {
@@ -1211,6 +1261,63 @@ new Chart(document.getElementById('chartE'), {
     }
   }
 });
+
+/* ─── Interaction layer: scroll progress, scrollspy, scroll-reveal ─── */
+(function () {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Scroll progress bar + scrollspy (active nav link)
+  const bar = document.querySelector('.scroll-progress');
+  const navLinks = [...document.querySelectorAll('.nav-links a')];
+  const navFor = {};
+  navLinks.forEach(a => {
+    const h = a.getAttribute('href');
+    if (h && h[0] === '#' && h.length > 1) navFor[h.slice(1)] = a;
+  });
+  const spySections = [...document.querySelectorAll('.section-divider[id]')];
+
+  let ticking = false;
+  function update() {
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - doc.clientHeight;
+    if (bar) bar.style.width = (max > 0 ? (doc.scrollTop / max) * 100 : 0) + '%';
+
+    const pos = window.scrollY + 90;
+    let curId = null;
+    for (const s of spySections) { if (s.offsetTop <= pos) curId = s.id; }
+    navLinks.forEach(a => a.classList.remove('active'));
+    if (curId && navFor[curId]) navFor[curId].classList.add('active');
+    ticking = false;
+  }
+  window.addEventListener('scroll', () => {
+    if (!ticking) { requestAnimationFrame(update); ticking = true; }
+  }, { passive: true });
+  window.addEventListener('resize', () => requestAnimationFrame(update), { passive: true });
+  update();
+
+  // Scroll-reveal: fade + rise as elements enter the viewport
+  if (!reduceMotion && 'IntersectionObserver' in window) {
+    const revealEls = [...document.querySelectorAll(
+      '.method-note, h2, .narrative, .stat-card, .chart-card, .key-insight, .finding-card'
+    )];
+    revealEls.forEach(el => el.classList.add('reveal'));
+
+    // stagger items that sit side-by-side in a group
+    document.querySelectorAll('.stat-grid, .two-col').forEach(group => {
+      [...group.children].forEach((c, i) => {
+        if (c.classList.contains('reveal')) c.style.transitionDelay = (i * 70) + 'ms';
+      });
+    });
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+    revealEls.forEach(el => io.observe(el));
+  }
+})();
 </script>
 </body>
 </html>
