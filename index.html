@@ -1439,15 +1439,19 @@ const fig3Occupations = [
   { label: 'Construction Workers', exposure: 15, growth: 4.5,  color: '#059669' }
 ];
 
+// Sort independently in descending order for optimal layout readability
+const fig3aData = [...fig3Occupations].sort((a, b) => b.exposure - a.exposure);
+const fig3bData = [...fig3Occupations].sort((a, b) => b.growth - a.growth);
+
 new Chart(document.getElementById('fig3a'), {
   type: 'bar',
   data: {
-    labels: fig3Occupations.map(o => o.label),
+    labels: fig3aData.map(o => o.label),
     datasets: [{
       label: 'AI Exposure Index',
-      data: fig3Occupations.map(o => o.exposure),
-      backgroundColor: fig3Occupations.map(o => o.color + '55'),
-      borderColor: fig3Occupations.map(o => o.color),
+      data: fig3aData.map(o => o.exposure),
+      backgroundColor: fig3aData.map(o => o.color + '55'),
+      borderColor: fig3aData.map(o => o.color),
       borderWidth: 1.5,
       borderRadius: 2
     }]
@@ -1482,12 +1486,12 @@ new Chart(document.getElementById('fig3a'), {
 new Chart(document.getElementById('fig3b'), {
   type: 'bar',
   data: {
-    labels: fig3Occupations.map(o => o.label),
+    labels: fig3bData.map(o => o.label),
     datasets: [{
       label: 'Projected Job Growth',
-      data: fig3Occupations.map(o => o.growth),
-      backgroundColor: fig3Occupations.map(o => o.growth >= 0 ? 'rgba(5,150,105,0.35)' : 'rgba(220,38,38,0.35)'),
-      borderColor: fig3Occupations.map(o => o.growth >= 0 ? '#059669' : '#dc2626'),
+      data: fig3bData.map(o => o.growth),
+      backgroundColor: fig3bData.map(o => o.growth >= 0 ? 'rgba(5,150,105,0.35)' : 'rgba(220,38,38,0.35)'),
+      borderColor: fig3bData.map(o => o.growth >= 0 ? '#059669' : '#dc2626'),
       borderWidth: 1.5,
       borderRadius: 2
     }]
