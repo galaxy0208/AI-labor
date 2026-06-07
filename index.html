@@ -12,6 +12,8 @@
 
 :root {
   --font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  /* readable sans-serif for long-form reading text; monospace (--font) is kept for short accent labels */
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --bg: #ffffff;
   --text: #000000;
   --muted: #595959;
@@ -34,10 +36,16 @@
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font);
-  font-size: 14px;
+  font-family: var(--font-body);
+  font-size: 16px;
   line-height: 1.7;
   min-height: 100vh;
+}
+
+/* keep the monospace identity on short uppercase accent labels only */
+.eyebrow, .section-label, .chart-num, .nav-logo, .feedback-card .label,
+.method-note .label, .method-number, .badge, .stat-value {
+  font-family: var(--font);
 }
 
 /* ─── NAV ─── */
@@ -139,9 +147,9 @@ h1 em {
 }
 
 .hero-desc {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--muted);
-  max-width: 600px;
+  max-width: 620px;
   margin-bottom: 36px;
   line-height: 1.8;
 }
@@ -175,7 +183,7 @@ h1 em {
 }
 
 .feedback-card p {
-  font-size: 13.5px;
+  font-size: 15px;
   color: var(--muted);
   font-style: italic;
   line-height: 1.75;
@@ -213,10 +221,10 @@ h2 {
 }
 
 .narrative {
-  font-size: 14px;
+  font-size: 16.5px;
   color: var(--muted);
-  max-width: 680px;
-  line-height: 1.85;
+  max-width: 700px;
+  line-height: 1.8;
   margin-bottom: 36px;
 }
 
@@ -248,7 +256,7 @@ h2 {
 }
 
 .chart-title {
-  font-size: 15px;
+  font-size: 16.5px;
   font-weight: 700;
   color: var(--text);
   margin-bottom: 5px;
@@ -256,10 +264,10 @@ h2 {
 }
 
 .chart-subtitle {
-  font-size: 12px;
+  font-size: 13.5px;
   color: var(--muted);
-  max-width: 600px;
-  line-height: 1.65;
+  max-width: 640px;
+  line-height: 1.6;
 }
 
 .chart-body { padding: 24px; }
@@ -269,7 +277,7 @@ h2 {
   flex-wrap: wrap;
   gap: 18px;
   margin-bottom: 18px;
-  font-size: 11.5px;
+  font-size: 12.5px;
   color: var(--muted);
 }
 
@@ -277,10 +285,10 @@ h2 {
 .lg { width: 10px; height: 10px; border-radius: 1px; flex-shrink: 0; }
 
 .source {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--muted2);
   margin-top: 14px;
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 /* ─── STAT GRID ─── */
@@ -313,9 +321,9 @@ h2 {
 }
 
 .stat-label {
-  font-size: 11.5px;
+  font-size: 13px;
   color: var(--muted);
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 /* ─── KEY INSIGHT ─── */
@@ -340,7 +348,7 @@ h2 {
 }
 
 .insight-text {
-  font-size: 13.5px;
+  font-size: 15.5px;
   color: var(--muted);
   line-height: 1.8;
 }
@@ -397,7 +405,7 @@ h2 {
   .section-divider { padding: 48px 0 0; }
 
   h1 { margin-bottom: 18px; }
-  .hero-desc, .narrative { font-size: 13.5px; }
+  .hero-desc, .narrative { font-size: 15px; }
 
   /* cards: lighter shadow + full-bleed-safe so they never cause side-scroll */
   .chart-card, .key-insight, .method-note, .stat-card, .finding-card {
@@ -427,7 +435,7 @@ h2 {
 .comparison-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 12.5px;
+  font-size: 13.5px;
 }
 
 .comparison-table th {
@@ -490,9 +498,9 @@ h2 {
 }
 
 .ct-detail {
-  font-size: 11px;
+  font-size: 12.5px;
   color: var(--muted2);
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 /* inline bar indicator */
@@ -577,7 +585,7 @@ h2 {
 }
 
 .finding-text {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--muted);
   line-height: 1.75;
 }
@@ -621,14 +629,14 @@ h2 {
 .method-title {
   max-width: 680px;
   margin: 4px 0 10px;
-  font-size: 19px;
+  font-size: 21px;
   line-height: 1.4;
 }
 
 .method-summary {
   max-width: 760px;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 14.5px;
   line-height: 1.75;
   margin-bottom: 22px;
 }
@@ -654,13 +662,13 @@ h2 {
 }
 
 .method-item h4 {
-  font-size: 12px;
+  font-size: 13.5px;
   margin-bottom: 8px;
 }
 
 .method-item p {
   color: var(--muted);
-  font-size: 11.5px;
+  font-size: 13px;
   line-height: 1.65;
 }
 
@@ -673,7 +681,7 @@ h2 {
   padding-top: 14px;
   border-top: 1px solid #eadfbd;
   color: var(--muted2);
-  font-size: 10.5px;
+  font-size: 11.5px;
   line-height: 1.6;
 }
 
@@ -699,9 +707,9 @@ h2 {
   position: relative;
   padding-left: 36px;
   margin-bottom: 12px;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted);
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 .references li::before {
@@ -999,13 +1007,14 @@ html { scroll-behavior: smooth; }
       <div class="chart-header">
         <p class="chart-num">Figure 2</p>
         <h3 class="chart-title">5-Year Employment Trend Forecast by AI Exposure Group</h3>
-        <p class="chart-subtitle">This line chart shows the projected employment trend from 2025 to 2030 by AI exposure group, indexed to 2025 = 100. All three groups grow over the period, but <strong>high-exposure jobs rise the most</strong> — reaching an index of 102.0 by 2030 — consistent with AI <em>augmenting</em> rather than purely displacing these occupations. Medium-exposure jobs grow the least (101.2), the pattern expected when automation competes with workers without clear complementarity gains. Levels are illustrative, normalized values — not official BLS index points.</p>
+        <p class="chart-subtitle">This line chart shows the <strong>projected (forecast)</strong> employment trend from 2025 to 2030 by AI exposure group, indexed to 2025 = 100. All three groups grow over the period, but <strong>high-exposure jobs rise the most</strong> — reaching an index of 102.0 by 2030 — consistent with AI <em>augmenting</em> rather than purely displacing these occupations. Medium-exposure jobs grow the least (101.2), the pattern expected when automation competes with workers without clear complementarity gains. Levels are illustrative, normalized values — not official BLS index points.</p>
       </div>
       <div class="chart-body">
         <div class="legend">
-          <span class="legend-item"><span class="lg" style="background:#dc2626;"></span>High Exposure</span>
-          <span class="legend-item"><span class="lg" style="background:#d97706;"></span>Medium Exposure</span>
-          <span class="legend-item"><span class="lg" style="background:#059669;"></span>Low Exposure</span>
+          <span class="legend-item"><span class="lg" style="background:#dc2626;"></span>High Exposure (Projected)</span>
+          <span class="legend-item"><span class="lg" style="background:#d97706;"></span>Medium Exposure (Projected)</span>
+          <span class="legend-item"><span class="lg" style="background:#059669;"></span>Low Exposure (Projected)</span>
+          <span class="legend-item" style="color:var(--muted2);"><span class="lg" style="background:repeating-linear-gradient(90deg,#595959 0 6px,transparent 6px 11px);border-radius:0;"></span>Dashed = projected (forecast)</span>
         </div>
         <div class="cwrap cw-340">
           <canvas id="fig1" role="img" aria-label="Line chart showing 5-year employment trend forecast by AI exposure group from 2025 to 2030."></canvas>
@@ -1336,33 +1345,36 @@ new Chart(document.getElementById('fig1'), {
     labels: ['2025', '2026', '2027', '2028', '2029', '2030'],
     datasets: [
       {
-        label: 'High Exposure',
+        label: 'High Exposure (Projected)',
         data: [100.0, 100.4, 100.8, 101.2, 101.6, 102.0],
         borderColor: '#dc2626',
         backgroundColor: 'rgba(220,38,38,0.08)',
         borderWidth: 2.5,
+        borderDash: [7, 5],
         pointRadius: 5,
         pointBackgroundColor: '#dc2626',
         tension: 0.3,
         fill: false,
       },
       {
-        label: 'Low Exposure',
+        label: 'Low Exposure (Projected)',
         data: [100.0, 100.33, 100.65, 100.99, 101.32, 101.6],
         borderColor: '#059669',
         backgroundColor: 'rgba(5,150,105,0.06)',
         borderWidth: 2.5,
+        borderDash: [7, 5],
         pointRadius: 5,
         pointBackgroundColor: '#059669',
         tension: 0.3,
         fill: false,
       },
       {
-        label: 'Medium Exposure',
+        label: 'Medium Exposure (Projected)',
         data: [100.0, 100.24, 100.48, 100.70, 100.95, 101.2],
         borderColor: '#d97706',
         backgroundColor: 'rgba(217,119,6,0.06)',
         borderWidth: 2.5,
+        borderDash: [7, 5],
         pointRadius: 5,
         pointBackgroundColor: '#d97706',
         tension: 0.3,
