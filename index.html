@@ -1023,18 +1023,34 @@ html { scroll-behavior: smooth; }
       </div>
     </div>
 
-    <!-- Figure 2 (occupational risk matrix — single bubble chart; the redundant grouped-bar version was removed) -->
-    <div class="chart-card">
-      <div class="chart-header">
-        <p class="chart-num">Figure 3</p>
-        <h3 class="chart-title">Occupational Risk Matrix: AI Exposure vs. Job Growth</h3>
-        <p class="chart-subtitle">This bubble chart maps six key occupations by AI Exposure Index (x-axis) and approximate projected job growth (y-axis); bubble size reflects relative workforce size. The quadrants reveal the critical distinction: <strong>upper-right</strong> occupations (Software Dev, Legal Services) face high exposure but maintain positive growth — AI augments rather than replaces. <strong>Lower-right</strong> occupations (Data Entry, Customer Support) face high exposure <em>and</em> decline — the greatest displacement risk. Transport (lower exposure, positive growth) and HC Support (moderate exposure, modest growth) sit in safer territory.</p>
-      </div>
-      <div class="chart-body">
-        <div class="cwrap cw-400">
-          <canvas id="fig2" role="img" aria-label="Bubble chart mapping occupations by AI exposure index and projected job growth, with bubble size for workforce size."></canvas>
+    <!-- Figure 3 (occupational risk matrix separated into two side-by-side charts) -->
+    <div class="two-col">
+      <div class="chart-card" style="margin-bottom:0;">
+        <div class="chart-header">
+          <p class="chart-num">Figure 3A</p>
+          <h3 class="chart-title">AI Exposure Index by Key Occupation</h3>
+          <p class="chart-subtitle">Synthesized index (0–100) reflecting task exposure to current LLMs. Highly exposed occupations span both high-growth professional roles and declining administrative ones.</p>
         </div>
-        <p class="source">Sources: Approximate job-growth figures derived from BLS Occupational Outlook Handbook / Employment Projections, 2024–2034 [6]; AI Exposure Index — synthesized composite (Eloundou et al. 2023 [4]); bubble size represents relative workforce size. Growth values are approximate and illustrative.</p>
+        <div class="chart-body">
+          <div class="cwrap cw-360">
+            <canvas id="fig3a" role="img" aria-label="Horizontal bar chart showing AI Exposure Index by key occupation."></canvas>
+          </div>
+          <p class="source">Source: Synthesized composite (Eloundou et al. 2023 [4]; O*NET 28.0 [5]); see methodology note. Values represent task-level exposure.</p>
+        </div>
+      </div>
+
+      <div class="chart-card" style="margin-bottom:0;">
+        <div class="chart-header">
+          <p class="chart-num">Figure 3B</p>
+          <h3 class="chart-title">Projected Job Growth by Key Occupation (2025–2030)</h3>
+          <p class="chart-subtitle">Projected employment growth rate (%) showing the contrast between occupations: some highly exposed roles grow (augmentation), while others decline (displacement).</p>
+        </div>
+        <div class="chart-body">
+          <div class="cwrap cw-360">
+            <canvas id="fig3b" role="img" aria-label="Horizontal bar chart showing projected job growth rate by key occupation."></canvas>
+          </div>
+          <p class="source">Source: Derived from BLS Employment Projections (2024–2034) [6]. Growth values are approximate and illustrative.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -1409,94 +1425,95 @@ new Chart(document.getElementById('fig1'), {
   }
 });
 
-// Figure 2 — Occupational Risk Matrix (bubble; the redundant grouped-bar version was removed per feedback)
+// Figure 3A & 3B — Occupational Risk Matrix (separated horizontal bar charts with expanded categories)
 const fig3Occupations = [
-  { label: 'Software Dev',     x: 85, y: 7.6,   r: 18, color: '#20b2aa' },
-  { label: 'Legal Services',   x: 78, y: 2.0,   r: 14, color: '#e07070' },
-  { label: 'Customer Support', x: 75, y: -2.8,  r: 16, color: '#d97706' },
-  { label: 'Data Entry',       x: 79, y: -15.0, r:  7, color: '#dc2626' },
-  { label: 'HC Support',       x: 39, y: 1.1,   r: 17, color: '#3cb371' },
-  { label: 'Transport',        x: 27, y: 2.0,   r: 19, color: '#6baed6' },
-]; 
-  
-  const bubbleLabels = {
-  id: 'bubbleLabels',
+  { label: 'Software Dev',         exposure: 85, growth: 7.6,  color: '#dc2626' },
+  { label: 'Office Clerks',         exposure: 80, growth: -8.0, color: '#dc2626' },
+  { label: 'Data Entry',           exposure: 79, growth: -15.0,color: '#dc2626' },
+  { label: 'Legal Services',       exposure: 78, growth: 2.0,  color: '#dc2626' },
+  { label: 'Financial Analysts',   exposure: 75, growth: 4.0,  color: '#dc2626' },
+  { label: 'Customer Support',     exposure: 75, growth: -2.8, color: '#dc2626' },
+  { label: 'HC Support',           exposure: 39, growth: 1.1,  color: '#d97706' },
+  { label: 'Transport',            exposure: 27, growth: 2.0,  color: '#059669' },
+  { label: 'Retail Cashiers',      exposure: 25, growth: -10.0,color: '#059669' },
+  { label: 'Construction Workers', exposure: 15, growth: 4.5,  color: '#059669' }
+];
 
-  afterDatasetsDraw(chart) {
-    const { ctx, chartArea } = chart;
-
-    ctx.save();
-    ctx.font = `11px ${FONT}`;
-    ctx.fillStyle = '#333333';
-    ctx.textBaseline = 'middle';
-
-    chart.data.datasets.forEach((dataset, index) => {
-      const bubble = chart.getDatasetMeta(index).data[0];
-      if (!bubble) return;
-
-      const label = dataset.label;
-      const radius = bubble.options.radius;
-      const labelWidth = ctx.measureText(label).width;
-
-      // 기본적으로 버블 오른쪽에 이름 표시
-      let x = bubble.x + radius + 7;
-      const y = bubble.y;
-
-      // Transport 라벨은 버블 왼쪽에 표시
-      if (dataset.label === 'Transport') {
-        x = bubble.x - radius - labelWidth - 7;
-      }
-      
-      // 오른쪽 공간이 부족하면 버블 왼쪽에 표시
-      if (x + labelWidth > chartArea.right) {
-        x = bubble.x - radius - labelWidth - 7;
-      }
-
-      ctx.fillText(label, x, y);
-    });
-
-    ctx.restore();
-  }
-};
-
-
-
-new Chart(document.getElementById('fig2'), {
-  type: 'bubble',
-  plugins: [bubbleLabels],
+new Chart(document.getElementById('fig3a'), {
+  type: 'bar',
   data: {
-    datasets: fig3Occupations.map(o => ({
-      label: o.label,
-      data: [{ x: o.x, y: o.y, r: o.r }],
-      backgroundColor: o.color + '55',
-      borderColor: o.color,
-      borderWidth: 2,
-    }))
+    labels: fig3Occupations.map(o => o.label),
+    datasets: [{
+      label: 'AI Exposure Index',
+      data: fig3Occupations.map(o => o.exposure),
+      backgroundColor: fig3Occupations.map(o => o.color + '55'),
+      borderColor: fig3Occupations.map(o => o.color),
+      borderWidth: 1.5,
+      borderRadius: 2
+    }]
   },
   options: {
+    indexAxis: 'y',
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { display: false},
+      legend: { display: false },
       tooltip: {
         ...tp,
-        callbacks: { label: c => ` ${c.dataset.label} — AI Exposure: ${c.parsed.x}/100, Growth: ${c.parsed.y}%` }
+        callbacks: { label: c => ` AI Exposure Index: ${c.parsed.x}/100` }
       }
     },
     scales: {
       x: {
-        min: 15, max: 100,
+        min: 0, max: 100,
         title: { display: true, text: 'AI Exposure Index (0–100)', color: '#595959', font: { family: FONT, size: 11 } },
         ticks: { color: '#595959' },
         grid: { color: 'rgba(0,0,0,0.05)' },
         border: { color: '#e5e7eb' }
       },
       y: {
+        ticks: { color: '#595959', font: { family: FONT, size: 11 } },
+        grid: { display: false }
+      }
+    }
+  }
+});
+
+new Chart(document.getElementById('fig3b'), {
+  type: 'bar',
+  data: {
+    labels: fig3Occupations.map(o => o.label),
+    datasets: [{
+      label: 'Projected Job Growth',
+      data: fig3Occupations.map(o => o.growth),
+      backgroundColor: fig3Occupations.map(o => o.growth >= 0 ? 'rgba(5,150,105,0.35)' : 'rgba(220,38,38,0.35)'),
+      borderColor: fig3Occupations.map(o => o.growth >= 0 ? '#059669' : '#dc2626'),
+      borderWidth: 1.5,
+      borderRadius: 2
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        ...tp,
+        callbacks: { label: c => ` Projected Growth: ${c.parsed.x >= 0 ? '+' : ''}${c.parsed.x.toFixed(1)}%` }
+      }
+    },
+    scales: {
+      x: {
         min: -18, max: 10,
-        title: { display: true, text: 'Approx. Job Growth, 2025–2030 (%)', color: '#595959', font: { family: FONT, size: 11 } },
-        ticks: { color: '#595959', callback: v => v + '%' },
+        title: { display: true, text: 'Projected Job Growth, 2025–2030 (%)', color: '#595959', font: { family: FONT, size: 11 } },
+        ticks: { color: '#595959', callback: v => (v >= 0 ? '+' : '') + v + '%' },
         grid: { color: 'rgba(0,0,0,0.05)' },
         border: { color: '#e5e7eb' }
+      },
+      y: {
+        ticks: { color: '#595959', font: { family: FONT, size: 11 } },
+        grid: { display: false }
       }
     }
   }
